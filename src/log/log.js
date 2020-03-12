@@ -56,19 +56,19 @@ const rawView = {
     }
   },
 
-  onLog(data) {
+  onLog(details) {
     let row =  document.createElement("tr");
 
     let time = document.createElement("td");
-    time.innerText = formatTime(data.timestamp);
+    time.innerText = formatTime(details.timeStamp);
     row.appendChild(time);
 
     let type = document.createElement("td");
-    type.innerText = data.type;
+    type.innerText = details.type;
     row.appendChild(type);
 
     let name = document.createElement("td");
-    name.innerText = data.name;
+    name.innerText = details.name;
     row.appendChild(name);
 
     let marker = document.createElement("td");
@@ -77,24 +77,24 @@ const rawView = {
     marker.appendChild(dropdown);
     row.appendChild(marker);
 
-    let detail;
+    let entry;
     marker.addEventListener("click", () => {
-      if (detail && !detail.hidden) {
-        detail.hidden = true;
+      if (entry && !entry.hidden) {
+        entry.hidden = true;
         dropdown.src = IMG_DROPDOWN;
 
         row.setAttribute("class", "");
       } else {
-        if (!detail) {
-          detail = document.createElement("tr");
-          detail.setAttribute("class", "detailrow");
+        if (!entry) {
+          entry = document.createElement("tr");
+          entry.setAttribute("class", "detailrow");
           let inner = document.createElement("td");
           inner.setAttribute("colspan", 4);
-          inner.innerText = JSON.stringify(data.detail);
-          detail.appendChild(inner);
-          this.log.insertBefore(detail, row.nextSibling);
+          inner.innerText = JSON.stringify(details.data);
+          entry.appendChild(inner);
+          this.log.insertBefore(entry, row.nextSibling);
         }
-        detail.hidden = false;
+        entry.hidden = false;
         dropdown.src = IMG_UP;
         row.setAttribute("class", "detailopen");
       }
@@ -203,7 +203,7 @@ async function init() {
     currentView.onLog(...args);
   }
 
-  browser.activityLog.onActivity.addListener(onLog, id);
+  browser.activityLog.onExtensionActivity.addListener(onLog, id);
 }
 
 addEventListener("DOMContentLoaded", init);

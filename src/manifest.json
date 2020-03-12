@@ -11,16 +11,5 @@
     "default_popup": "popup/popup.html"
   },
 
-  "permissions": ["management"],
-
-  "experiment_apis": {
-    "activityLog": {
-      "schema": "api/schema.json",
-      "parent": {
-        "scopes": ["addon_parent"],
-        "script": "api/api.js",
-        "paths": [["activityLog"]]
-      }
-    }
-  }
+  "permissions": ["management", "activityLog"]
 }

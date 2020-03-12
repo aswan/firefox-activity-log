@@ -1,13 +1,10 @@
+"use strict";
 
-console.log("in popup");
 window.addEventListener("load", async () => {
-  console.log("in load");
   let list = document.getElementById("list");
   let addons = await browser.management.getAll();
   for (let addon of addons) {
-    if (addon.type !== "extension") { continue; }
-    console.log(addon);
-
+    if (addon.type !== "extension" || !addon.enabled) { continue; }
     ( ({name, id}) => {
       let item = document.createElement("li");
       item.innerText = name;
